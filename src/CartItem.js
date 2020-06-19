@@ -77,6 +77,7 @@ class CartItem extends React.Component {
     render() {
         console.log('this.props', this.props);
         const {price, title, qty} = this.props.product;
+        const {product, onIncreasQuantity, onDecreaseQuantity} = this.props;
         return (
             <div className="cart-item">
               <div className="left-block">
@@ -92,11 +93,20 @@ class CartItem extends React.Component {
                   alt="Increase" 
                   className="action-icons" 
                   src="https://image.flaticon.com/icons/svg/659/659893.svg" 
-                  onClick = {() => this.props.onIncreasQuantity(this.props.product)} 
+                  onClick = {() => onIncreasQuantity(product)} 
                  />
                 {/* onClick = {this.increaseQuantity.bind(this)} */}  
-                 <img alt="Decrease" className="action-icons" src="https://image.flaticon.com/icons/svg/659/659892.svg" onClick = {this.decreaseQuantity} />
-                 <img alt="Delete" className="action-icons" src="https://image.flaticon.com/icons/svg/1345/1345823.svg" />
+                 <img 
+                  alt="Decrease" 
+                  className="action-icons" 
+                  src="https://image.flaticon.com/icons/svg/659/659892.svg" 
+                  onClick = {()=> onDecreaseQuantity(product)} 
+                 />
+                 <img 
+                  alt="Delete" 
+                  className="action-icons" 
+                  src="https://image.flaticon.com/icons/svg/1345/1345823.svg" 
+                 />
                  </div>
               </div>
             </div>
