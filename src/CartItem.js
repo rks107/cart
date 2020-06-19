@@ -14,7 +14,21 @@ class CartItem extends React.Component {
     }
 
     increaseQuantity = () => {
-        console.log(this.state);
+        // console.log(this.state);
+
+    // SHALLOW MERGING - only change qty
+
+        // setState form 1 - required if only needs to change something once
+        // this.setState({
+        //     qty: this.state.qty + 1
+        // });
+
+        // setState form 2 - if prevState required use this form 2
+        this.setState((prevState)=> {
+            return {
+                qty: prevState.qty + 1
+            }
+        })
     }
 
     render() {
