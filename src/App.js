@@ -7,31 +7,10 @@ class App extends React.Component{
   constructor() {
     super();
     this.state = {
-        products : [
-            // {
-            //     price: 99,
-            //     title: 'Watch',
-            //     qty: 10,
-            //     img: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-            //     id: 1
-            // },
-            // {
-            //     price: 999,
-            //     title: 'Mobile Phone',
-            //     qty: 100,
-            //     img: 'https://images.unsplash.com/photo-1547658718-f4311ad64746?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
-            //     id: 2
-            // },
-            // {
-            //     price: 9999,
-            //     title: 'Laptop',
-            //     qty: 1,
-            //     img: 'https://images.unsplash.com/photo-1504707748692-419802cf939d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1030&q=80',
-            //     id: 3
-            // }
-        ],
-        loading: true
+        products : [],
+        loading: true,
     }
+    this.db = firebase.firestore()
 }
 
 componentDidMount() {
@@ -52,8 +31,7 @@ componentDidMount() {
   //      return data;
   //    })
 
-  firebase
-   .firestore()
+  this.db
    .collection('products')
    .onSnapshot((snapshot) => {
     const products = snapshot.docs.map((doc) => {
@@ -128,6 +106,23 @@ getCartTotal = () => {
   return cartTotal;
 }
 
+addProduct = () => {
+  this.db
+  .collection('products')
+  .add({
+    img: 'https://images.unsplash.com/photo-1534299898413-786c624f93eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60',
+    price: 10000,
+    title: 'Washing Machine',
+    qty: 5
+  })
+  .then((docRef) => {
+    console.log('product added sucessfully', docRef);
+  })
+  .catch((err) => {
+    console.log('Error', err);
+  })
+}
+
   render(){
     const {products, loading} = this.state;
     return (
@@ -135,6 +130,7 @@ getCartTotal = () => {
         <Navbar 
           cart={this.getCartCount()}
         />
+        <button onClick={this.addProduct} style={{padding:20, fontSize:20, margin:10}}> Add Product</button>
         <Cart 
           products={products}
           onIncreasQuantity={this.handleIncreaseQuantity}
