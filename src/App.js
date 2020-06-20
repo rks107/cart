@@ -35,28 +35,40 @@ class App extends React.Component{
 }
 
 componentDidMount() {
+  // firebase
+  //  .firestore()
+  //  .collection('products')
+  //  .get()
+  //  .then((snapshot) =>{
+  //    console.log(snapshot);
+
+  //    snapshot.docs.map((doc) => {
+  //      console.log(doc.data());
+  //    })
+
+  //    const products = snapshot.docs.map((doc) => {
+  //      const data = doc.data();
+  //      data['id'] = doc.id;
+  //      return data;
+  //    })
+
   firebase
    .firestore()
    .collection('products')
-   .get()
-   .then((snapshot) =>{
-     console.log(snapshot);
+   .onSnapshot((snapshot) => {
+    const products = snapshot.docs.map((doc) => {
+      const data = doc.data();
+      data['id'] = doc.id;
+      return data;
+    })
 
-     snapshot.docs.map((doc) => {
-       console.log(doc.data());
-     })
+    this.setState({
+      products,
+      loading: false
+    });
+   });
 
-     const products = snapshot.docs.map((doc) => {
-       const data = doc.data();
-       data['id'] = doc.id;
-       return data;
-     })
-
-     this.setState({
-       products,
-       loading: false
-     });
-   })
+    
 }
 
 handleIncreaseQuantity = (product) => {
