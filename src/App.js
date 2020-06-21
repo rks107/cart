@@ -90,7 +90,7 @@ handleDecreaseQuantity = (product) => {
     .catch((err) => {
       console.log('Error', err);
     })
-    
+
     // products[index].qty -= 1;
 
     // this.setState({
@@ -101,10 +101,20 @@ handleDecreaseQuantity = (product) => {
 handleDeleteProduct = (id) => {
     const {products} = this.state;
 
-    const items = products.filter((item) => item.id !== id);  //[{}]
-    this.setState({
-        products: items
+    const docRef = this.db.collection('products').doc(id);
+
+    docRef
+    .delete()
+    .then(() => {
+      console.log('Deleted Successfully');
     })
+    .catch((err) => {
+      console.log('Error', err);
+    })
+    // const items = products.filter((item) => item.id !== id);  //[{}]
+    // this.setState({
+    //     products: items
+    // })
 }
 
 getCartCount = () => {
