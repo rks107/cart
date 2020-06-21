@@ -33,6 +33,8 @@ componentDidMount() {
 
   this.db
    .collection('products')
+  //  .where('price','>=', 10000)
+  .orderBy('title','asc')
    .onSnapshot((snapshot) => {
     const products = snapshot.docs.map((doc) => {
       const data = doc.data();
