@@ -53,11 +53,23 @@ handleIncreaseQuantity = (product) => {
     // console.log('Hey Increase the Qty of produc', product);
     const {products} = this.state;
     const index = products.indexOf(product);
-    products[index].qty += 1;
+    const docRef = this.db.collection('products').doc(products[index].id);
 
-    this.setState ({
-        products
-    })
+    docRef
+      .update({
+        qty: products[index].qty + 1
+      })
+      .then(() => {
+        console.log('Updated Successfully');
+      })
+      .catch((err) => {
+        console.log('Error', err);
+      })
+    // products[index].qty += 1;
+
+    // this.setState ({
+    //     products
+    // })
 }
 handleDecreaseQuantity = (product) => {
     const {products} = this.state;
@@ -66,11 +78,24 @@ handleDecreaseQuantity = (product) => {
         return;
     }
 
-    products[index].qty -= 1;
+    const docRef = this.db.collection('products').doc(products[index].id);
 
-    this.setState({
-        products
+    docRef
+    .update({
+      qty: products[index].qty - 1
     })
+    .then(() => {
+      console.log('Updated Successfully');
+    })
+    .catch((err) => {
+      console.log('Error', err);
+    })
+    
+    // products[index].qty -= 1;
+
+    // this.setState({
+    //     products
+    // })
 }
 
 handleDeleteProduct = (id) => {
